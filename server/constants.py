@@ -23,13 +23,14 @@ class Region(Enum):
     CN = 4,
 
 
-class MatchVsNote(Enum):
+class BestOf(Enum):
+    NONE = 0,
     BO1 = 1,
     BO3 = 3,
     BO5 = 5
 
 
-class TieBreaker(Enum):
+class Tiebreaker(Enum):
     MATCH_DIFF = 1
     MAP_DIFF = 2
     ROUND_DIFF = 3

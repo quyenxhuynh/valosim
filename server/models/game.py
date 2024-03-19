@@ -1,11 +1,14 @@
 from constants import Map, Status
 from team import Team
 import logging
+import uuid
 
 
 class Game:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
+        self.id = uuid.uuid4()
+
         self.map: Map = Map.NONE
         self.status: Status = Status.NOT_STARTED
 
@@ -18,7 +21,7 @@ class Game:
         self.winner = None
         self.loser = None
 
-    def update_game_status(self):
+    def update_game_status(self) -> None:
         if self.status == Status.COMPLETE:
             return
 
@@ -34,7 +37,7 @@ class Game:
 
         self.status = Status.IN_PROGRESS
 
-    def update_teams(self):
+    def update_teams(self) -> None:
         if self.status == Status.COMPLETE:
             if self.alpha_score > self.omega_score:
                 self.winner = self.alpha
@@ -43,7 +46,7 @@ class Game:
                 self.winner = self.omega
                 self.loser = self.alpha
 
-    def update_score(self, alpha_score: int, omega_score: int, force: bool = False):
+    def update_score(self, alpha_score: int, omega_score: int, force: bool = False) -> None:
         if self.status == Status.COMPLETE and not force:
             self.logger.info(f"The game was marked complete. Scores will not be updated.")
             return
@@ -52,10 +55,13 @@ class Game:
         self.alpha_score = alpha_score
         self.omega_score = omega_score
 
-    def get_winner(self):
+    def get_game_status(self) -> Status:
+        return self.status
+
+    def get_winner(self) -> Team:
         return self.winner
 
-    def get_loser(self):
+    def get_loser(self) -> Team:
         return self.loser
 
     def __str__(self):
